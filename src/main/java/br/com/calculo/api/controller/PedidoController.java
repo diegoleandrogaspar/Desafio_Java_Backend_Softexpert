@@ -1,5 +1,6 @@
 package br.com.calculo.api.controller;
 
+import br.com.calculo.api.domain.dto.PedidoDTO;
 import br.com.calculo.api.domain.model.Pedido;
 import br.com.calculo.api.domain.model.ResultadoCalculo;
 import br.com.calculo.api.domain.repository.PedidoRepository;
@@ -30,18 +31,11 @@ public class PedidoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Map<String, BigDecimal> adicionar(@RequestBody Pedido pedido, @RequestBody Map<String, BigDecimal> amigos ) {
+    public Map<String, BigDecimal> calcularPagamento(@RequestBody PedidoDTO pedidoDTO) {
 
-        List<Map<String, Object>> valoresAdicionais = obterValoresAdicionais(pedido.getAdditional());
-        List<Map<String, Object>> descontos = obterDescontos(pedido.getDescount());
+    ResultadoCalculo resultado = cadastroPedidoService.salvar(pedidoDTO.getPedido());
 
-
-        ResultadoCalculo resultado = cadastroPedidoService.salvar(pedido, valoresAdicionais, descontos);
-        return resultado.dividirConta(amigos);
-
-
+    return resultado.dividirConta(pedidoDTO.getAmigos());
 
     }
-
-
 }

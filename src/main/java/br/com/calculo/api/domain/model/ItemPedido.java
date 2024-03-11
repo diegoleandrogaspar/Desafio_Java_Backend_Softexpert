@@ -1,12 +1,12 @@
 package br.com.calculo.api.domain.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
-
 import java.math.BigDecimal;
 
-@Data
+
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 public class ItemPedido {
@@ -15,10 +15,11 @@ public class ItemPedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     @Column(nullable = false)
     private String nome;
 
-    @Column(nullable = false)
+    @NotNull
     private BigDecimal valor;
 
     public ItemPedido() {
