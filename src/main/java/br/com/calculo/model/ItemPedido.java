@@ -1,7 +1,6 @@
-package br.com.calculo.api.domain.model;
+package br.com.calculo.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import java.math.BigDecimal;
@@ -14,7 +13,6 @@ public class ItemPedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
 
     @Column(nullable = false)
     private String nome;

@@ -1,6 +1,6 @@
-package br.com.calculo.api.domain.repository;
+package br.com.calculo.repository;
 
-import br.com.calculo.api.domain.model.Pedido;
+import br.com.calculo.model.Pedido;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

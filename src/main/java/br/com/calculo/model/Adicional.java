@@ -1,5 +1,6 @@
-package br.com.calculo.api.domain.model;
+package br.com.calculo.model;
 
+import br.com.calculo.pattern.ValorAplicavel;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,13 +23,17 @@ public class Adicional {
     @NotNull
     private BigDecimal valor;
 
-    @NotBlank
     private String tipo;
+
+    private ValorAplicavel estrategiaAplicacao;
 
     public Adicional() {
     }
 
-    public Adicional(String nome, BigDecimal valor, String tipo) {
+    public Adicional(String nome, BigDecimal valor, String estrategia) {
+        this.nome = nome;
+        this.valor = valor;
+        this.estrategiaAplicacao = estrategia;
     }
 
     public Long getId() {
@@ -43,12 +48,9 @@ public class Adicional {
         return valor;
     }
 
-    public String getTipo() {
-        return tipo;
+    public ValorAplicavel getEstrategiaAplicacao() {
+        return estrategiaAplicacao;
     }
-
-
-
     public BigDecimal aplicar(BigDecimal total) {
         if ("real".equals(tipo)) {
             return total.add(valor);

@@ -1,5 +1,6 @@
-package br.com.calculo.api.domain.model;
+package br.com.calculo.model;
 
+import br.com.calculo.pattern.ValorAplicavel;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -12,16 +13,18 @@ public class Desconto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @NotNull
     @Column(name = "valor_desconto")
     private BigDecimal desconto;
 
+    private ValorAplicavel estrategiaAplicacao;
+
     public Desconto() {
     }
 
-    public Desconto(BigDecimal desconto) {
+    public Desconto(BigDecimal desconto, ValorAplicavel estrategiaAplicacao) {
         this.desconto = desconto;
+        this.estrategiaAplicacao = estrategiaAplicacao;
     }
 
     public Long getId() {

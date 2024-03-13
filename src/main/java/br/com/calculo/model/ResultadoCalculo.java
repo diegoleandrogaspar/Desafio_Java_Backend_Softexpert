@@ -1,4 +1,4 @@
-package br.com.calculo.api.domain.model;
+package br.com.calculo.model;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -23,25 +23,21 @@ public class ResultadoCalculo {
         if (pedidoSalvo != null) {
             this.pedido = pedidoSalvo;
         } else {
-            // Lidar com a lógica apropriada quando o pedido salvo for nulo.
             throw new IllegalArgumentException("O pedido salvo não pode ser nulo.");
         }
 
         if (adicionais != null) {
             this.adicionais = adicionais;
         } else {
-            // Lidar com a lógica apropriada quando a lista de adicionais for nula.
             throw new IllegalArgumentException("A lista de adicionais não pode ser nula.");
         }
 
         if (desconto != null) {
             this.descontos = Collections.singletonList(desconto);
         } else {
-            // Lidar com a lógica apropriada quando o desconto for nulo.
             throw new IllegalArgumentException("O desconto não pode ser nulo.");
         }
     }
-
 
     public BigDecimal calcularPagamento() {
         if (this.pedido != null) {
@@ -53,14 +49,15 @@ public class ResultadoCalculo {
 
             return total.setScale(2, RoundingMode.HALF_UP);
         } else {
-            // Lide com a lógica apropriada quando o pedido for nulo.
             return BigDecimal.ZERO;
         }
     }
 
     private BigDecimal aplicarAdicionais(BigDecimal total) {
         for (Adicional adicional : adicionais) {
-            total = adicional.aplicar(total);
+            if (adicional.isEscolhaCliente()) {
+                total = adicional.aplicar(total);
+            }
         }
         return total;
     }
@@ -84,7 +81,6 @@ public class ResultadoCalculo {
                     .collect(Collectors.toMap(Map.Entry::getKey, entry ->
                             entry.getValue().multiply(proporcaoTotal).setScale(2, RoundingMode.HALF_UP)));
         } else {
-            // Lide com a lógica apropriada quando o total for zero.
             return amigos.entrySet().stream()
                     .collect(Collectors.toMap(Map.Entry::getKey, entry -> BigDecimal.ZERO));
         }
