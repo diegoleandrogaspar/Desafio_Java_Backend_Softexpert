@@ -5,8 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import java.math.BigDecimal;
 
-
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 public class ItemPedido {
 

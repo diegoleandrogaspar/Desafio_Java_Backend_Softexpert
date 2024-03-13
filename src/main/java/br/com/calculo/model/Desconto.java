@@ -3,7 +3,6 @@ package br.com.calculo.model;
 import br.com.calculo.pattern.ValorAplicavel;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-
 import java.math.BigDecimal;
 
 @Entity
@@ -16,6 +15,10 @@ public class Desconto {
     @NotNull
     @Column(name = "valor_desconto")
     private BigDecimal desconto;
+
+    @NotNull
+    @Column(name = "tipo_desconto")
+    private String tipo;
 
     private ValorAplicavel estrategiaAplicacao;
 
@@ -35,9 +38,12 @@ public class Desconto {
         return desconto;
     }
 
+    public String getTipo() {
+        return tipo;
+    }
+
     public BigDecimal aplicar(BigDecimal valorTotal) {
         BigDecimal percentualDesconto = desconto.divide(BigDecimal.valueOf(100), 2, BigDecimal.ROUND_HALF_UP);
         return valorTotal.subtract(valorTotal.multiply(percentualDesconto));
     }
-
 }

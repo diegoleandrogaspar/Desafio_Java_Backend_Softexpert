@@ -1,21 +1,16 @@
 package br.com.calculo.pattern;
 
-public enum ValorAplicavelFactory {
+public class ValorAplicavelFactory {
 
-    FIXO {
-        @Override
-        public ValorAplicavel getEstrategia() {
-            return new ValorFixoEstrategia();
+    public static ValorAplicavel getEstragegia(String tipo) {
+
+        switch (tipo) {
+            case "fixo":
+                return new ValorFixoEstrategia();
+            case "percentual":
+                return new ValorPercentualEstrategia();
+            default:
+                throw new IllegalArgumentException("Tipo de estratégia desconhecido: " + tipo);
         }
-    },
-    PERCENTUAL {
-        @Override
-        public ValorAplicavel getEstrategia() {
-            return new ValorPercentualEstrategia();
-        }
-    };
-
-    public abstract ValorAplicavel getEstrategia();
-
-
+    }
 }

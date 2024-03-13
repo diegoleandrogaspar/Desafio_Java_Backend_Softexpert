@@ -30,7 +30,13 @@ public class Adicional {
     public Adicional() {
     }
 
-    public Adicional(String nome, BigDecimal valor, String estrategia) {
+    public Adicional(@NotBlank String nome, @NotNull BigDecimal valor, String tipo) {
+        this.nome = nome;
+        this.valor = valor;
+        this.tipo = tipo;
+    }
+
+    public Adicional(String nome, BigDecimal valor, ValorAplicavel estrategia) {
         this.nome = nome;
         this.valor = valor;
         this.estrategiaAplicacao = estrategia;
@@ -48,6 +54,10 @@ public class Adicional {
         return valor;
     }
 
+    public String getTipo() {
+        return tipo;
+    }
+
     public ValorAplicavel getEstrategiaAplicacao() {
         return estrategiaAplicacao;
     }
@@ -60,6 +70,7 @@ public class Adicional {
         }
         return total;
     }
+
 
 
 }

@@ -39,53 +39,53 @@ public class CadastroPedidoService {
        return pedidosDTO;
     }
 
-   private Pedido criarPedido(PedidoDTO pedidoDTO) {
+    private Pedido criarPedido(PedidoDTO pedidoDTO) {
         Pedido pedido = new Pedido();
 
         // Processar itens
-       pedidoDTO.itens().forEach(item ->
-               pedido.adicionarItem(item.nome(), item.preco()))
-       );
+        pedidoDTO.itens().forEach(item ->
+                pedido.adicionarItem(item.nome(), item.preco())
+        );
 
+        // Processar adicionais
+        pedidoDTO.adicionais().forEach(adicional ->
+                pedido.adicionarAdicional(new Adicional(adicional.nome(), adicional.preco(), adicional.tipo()))
+        );
 
-       //Processar adicionais
-       pedidoDTO.adicionais().forEach(adicional ->
-               pedido.adicionarAdicional(new Adicional(adicional.nome(), adicional.preco(), adicional.tipo()))
-       );
-
-       // Processar descontos, se houver
+        // Processar descontos, se houver
        if (pedidoDTO.descontos() != null) {
-           pedidoDTO.descontos().forEach(desconto ->
-                   pedido.adicionarDesconto(new Desconto(desconto.valor(), ValorAplicavelFactory.getEstrategia(desconto.tipo())))
-       );
-   }
-       return pedido;
-   }
-
-   private PedidoDTO criarPedidoDTO(Pedido pedido) {
-
-       List<PedidoDTO.ItemPedidoDTO> itensDTO = new ArrayList<>();
-       List<PedidoDTO.AdicionalDTO> adicionaisDTO = new ArrayList<>();
-       List<PedidoDTO.DescontoDTO> descontosDTO = new ArrayList<>();
-
-       // Converter itens do pedido para ItemPedidoDTO
-       pedido.getItens().forEach(item ->
-               itensDTO.add(new PedidoDTO.ItemPedidoDTO(item.getNome(), item.getValor()))
-       );
-
-       // Converter adicionais do pedido para AdicionalDTO
-       pedido.getAdicionais().forEach(adicional ->
-               adicionaisDTO.add(new PedidoDTO.AdicionalDTO(adicional.getNome(), adicional.getValor(), adicional.getTipo()))
-       );
-
-       // Converter descontos do pedido para DescontoDTO
-       if (pedido.getDescontos() != null) {
-           descontosDTO.add(new PedidoDTO.DescontoDTO(pedido.getDescontos().getValor(), pedido.getDescontos().getTipo()));
+            pedidoDTO.descontos().forEach(desconto ->
+                pedido.adicionarDesconto(new Desconto(desconto.valor(), ValorAplicavelFactory.getEstragegia(desconto.tipo()))));
        }
 
-       return new PedidoDTO(itensDTO, adicionaisDTO, descontosDTO);
-   }
+        return pedido;
+    }
+
+    private PedidoDTO criarPedidoDTO(Pedido pedido) {
+        List<PedidoDTO.ItemPedidoDTO> itensDTO = new ArrayList<>();
+        List<PedidoDTO.AdicionalDTO> adicionaisDTO = new ArrayList<>();
+        List<PedidoDTO.DescontoDTO> descontosDTO = new ArrayList<>();
+
+        // Converter itens do pedido para ItemPedidoDTO
+        pedido.getItens().forEach(item ->
+                itensDTO.add(new PedidoDTO.ItemPedidoDTO(item.getNome(), item.getValor()))
+        );
+
+        // Converter adicionais do pedido para AdicionalDTO
+        pedido.getAdicionais().forEach(adicional ->
+                adicionaisDTO.add(new PedidoDTO.AdicionalDTO(adicional.getNome(), adicional.getValor(), adicional.getTipo()))
+        );
+
+        // Converter descontos do pedido para DescontoDTO
+        pedido.getDescontos().forEach(desconto ->
+                descontosDTO.add(new PedidoDTO.DescontoDTO(desconto.getDesconto(), desconto.getTipo()))
+        );
+
+        return new PedidoDTO(itensDTO, adicionaisDTO, descontosDTO);
     }
 
 
 }
+
+
+

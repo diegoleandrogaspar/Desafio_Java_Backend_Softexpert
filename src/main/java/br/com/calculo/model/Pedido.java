@@ -1,11 +1,9 @@
 package br.com.calculo.model;
 
 import jakarta.persistence.*;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
 
 @Entity
 public class Pedido {
@@ -20,7 +18,8 @@ public class Pedido {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Adicional> adicionais = new ArrayList<>();
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ElementCollection
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Desconto> descontos = new ArrayList<>();
 
     public Pedido() {
@@ -69,10 +68,12 @@ public class Pedido {
 
         BigDecimal subtotal = totalItens.add(totalAdicionais);
 
-        subtotal = (BigDecimal) descontos.stream()
-                .reduce(subtotal, Desconto::aplicar, (total, aplicado) -> total);
+        // Aplica os descontos ao subtotal
+        BigDecimal subtotalComDescontos = descontos.stream()
+                .map(desconto -> desconto.aplicar(subtotal)) // Aplica o desconto em cada desconto
+                .reduce(subtotal, BigDecimal::subtract); // Subtrai os descontos do subtotal
 
-        return subtotal;
+        return subtotalComDescontos;
     }
 
     public void adicionarDesconto(Desconto desconto) {
@@ -83,13 +84,13 @@ public class Pedido {
         descontos.remove(desconto);
     }
 
-
-    public void adicionarItem(String nome, BigDecimal preco) {
-
-
+    public void adicionarItem(String nome, BigDecimal valor) {
+        ItemPedido itemPedido = new ItemPedido(nome, valor);
+        itens.add(itemPedido);
     }
 
     public void adicionarAdicional(Adicional adicional) {
+        adicionais.add(adicional);
     }
 }
 

@@ -17,5 +17,4 @@ public record PedidoDTO(List<ItemPedidoDTO> itens, List<AdicionalDTO> adicionais
     public record DescontoDTO(BigDecimal valor, String tipo){
     }
 
-
 }
