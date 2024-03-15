@@ -18,7 +18,6 @@ public class Pedido {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Adicional> adicionais = new ArrayList<>();
 
-    @ElementCollection
     @OneToMany(cascade = CascadeType.ALL)
     private List<Desconto> descontos = new ArrayList<>();
 

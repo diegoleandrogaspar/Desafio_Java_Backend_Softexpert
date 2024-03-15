@@ -20,6 +20,7 @@ public class Desconto {
     @Column(name = "tipo_desconto")
     private String tipo;
 
+    @Transient
     private ValorAplicavel estrategiaAplicacao;
 
     public Desconto() {
